@@ -1,13 +1,31 @@
-import React from 'react'
-export const ProyectoGif = () => {
-  //Usando el Hook useState (función que permite agregar estado de React a los componentes funcionales)
-//Para evitar el posible error de Javascript por no definir un valor inicial, se le pone un arreglo que tenga 'One Punch' como valor inicial
-const [categories, setCategories] = useState(['One Punch'])
-  return (
+import { useState } from "react"; 
+import { AddCategory } from './components/AddCategory'; 
+import { GifGrid } from './components/GifGrid'; 
+export const ProyectoGif = () => { 
+   
+
+  const [categories, setCategories] = useState(["yugioh"]); 
+  // Definimos una función onAddCategory que toma un argumento newCategory 
+  const onAddCategory = (newCategory) => { 
+    
+    if (categories.includes(newCategory)) return; 
+    
+    setCategories([newCategory, ...categories]); 
+  }; 
+ 
+  // Devolvemos el JSX que se renderizará 
+  return ( 
     <>
-      <h1>ProyectoGif</h1>
-    </>
-  )
-}
-
-
+     <h1>Proyecto Gif guille</h1> 
+      {/* // Renderizamos el componente AddCategory y le pasamos una función que se 
+activará cuando se agregue una nueva 
+      categoría */} 
+      <AddCategory onNewCategory={(value) => onAddCategory(value)} /> 
+      {/* // Mapeamos las categorías a componentes GifGrid, cada uno con una clave única 
+y una categoría */} 
+      {categories.map((category) => ( 
+        <GifGrid key={category} category={category} /> 
+      ))} 
+    </> 
+  ); 
+}; 
